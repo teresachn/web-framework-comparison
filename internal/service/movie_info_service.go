@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"tchen/web-framework-comparison/config"
 	"tchen/web-framework-comparison/internal/entity"
 	request "tchen/web-framework-comparison/internal/payload/request"
 	response "tchen/web-framework-comparison/internal/payload/response"
@@ -9,17 +10,17 @@ import (
 )
 
 type MovieInfoService struct {
-	repo repository.MovieInfoRepository
+	config config.Configuration
 }
 
-func NewMovieInfoService(repo repository.MovieInfoRepository) MovieInfoService {
+func NewMovieInfoService(config config.Configuration) MovieInfoService {
 	return MovieInfoService{
-		repo: repo,
+		config: config,
 	}
 }
 
 func (m MovieInfoService) GetAllMovieInfo(ctx context.Context) ([]response.MovieInfo, error) {
-	movieInfos, err := m.repo.GetAllMovieInfo(ctx)
+	movieInfos, err := repository.GetAllMovieInfo(ctx, m.config)
 	if err != nil {
 		return []response.MovieInfo{}, err
 	}
@@ -38,7 +39,7 @@ func (m MovieInfoService) AddMovieInfo(ctx context.Context, movieInfoRequest req
 	var movieInfo entity.MovieInfo
 	movieInfoRequest.Transform(&movieInfo)
 
-	err := m.repo.AddMovieInfo(ctx, &movieInfo)
+	err := repository.AddMovieInfo(ctx, m.config, &movieInfo)
 	if err != nil {
 		return response.MovieInfo{}, nil
 	}

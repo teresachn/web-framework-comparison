@@ -10,25 +10,22 @@ import (
 )
 
 var (
-	MONGO_URI      = os.Getenv("MONGO_URI")
-	MONGO_DATABASE = os.Getenv("MONGO_DATABASE")
+	MONGO_URI = os.Getenv("MONGO_URI")
 )
 
-type MongoConfig struct {
-	Client   *mongo.Client
-	Database *mongo.Database
+type Configuration struct {
+	Client *mongo.Client
 }
 
-func (m *MongoConfig) Start() {
+func (m *Configuration) StartDB() {
 	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI(MONGO_URI))
 	if err != nil {
 		log.Fatalf("Failed to connect to mongo")
 	}
 
 	m.Client = client
-	m.Database = m.Client.Database(MONGO_DATABASE)
 }
 
-func (m *MongoConfig) Close() {
+func (m *Configuration) CloseDB() {
 	m.Client.Disconnect(context.Background())
 }

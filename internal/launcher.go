@@ -1,16 +1,16 @@
 package internal
 
-// import (
-// 	"tchen/web-framework-comparison/config"
-// 	"tchen/web-framework-comparison/internal/repository"
-// 	"tchen/web-framework-comparison/internal/service"
-// )
+import (
+	"tchen/web-framework-comparison/config"
+	// 	"tchen/web-framework-comparison/internal/repository"
+	// 	"tchen/web-framework-comparison/internal/service"
+)
 
 func Launch() {
-	// var mongoConfig config.MongoConfig
-	// mongoConfig.Start()
+	var configuration config.Configuration
+	configuration.StartDB()
 
-	// defer mongoConfig.Close()
+	defer configuration.CloseDB()
 
 	// movieInfoMongoRepo := repository.NewMovieInfoRepositoryMongo(mongoConfig)
 	// movieInfoService := service.NewMovieInfoService(movieInfoMongoRepo)

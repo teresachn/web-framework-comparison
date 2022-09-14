@@ -8,27 +8,15 @@ import (
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 var (
 	MONGO_MOVIE_INFO_DB = os.Getenv("MONGO_MOVIE_INFO_DB")
+	tableName           = "movie_infos"
 )
 
-type MovieInfoRepositoryMongo struct {
-	database  *mongo.Database
-	tableName string
-}
-
-func NewMovieInfoRepositoryMongo(config config.MongoConfig) MovieInfoRepository {
-	return &MovieInfoRepositoryMongo{
-		database:  config.Database,
-		tableName: MONGO_MOVIE_INFO_DB,
-	}
-}
-
-func (m MovieInfoRepositoryMongo) AddMovieInfo(ctx context.Context, movieInfo *entity.MovieInfo) error {
-	insertInfo, err := m.database.Collection(m.tableName).InsertOne(ctx, movieInfo)
+func AddMovieInfo(ctx context.Context, config config.Configuration, movieInfo *entity.MovieInfo) error {
+	insertInfo, err := config.Client.Database(MONGO_MOVIE_INFO_DB).Collection(tableName).InsertOne(ctx, movieInfo)
 	if err != nil {
 		return err
 	}
@@ -37,8 +25,8 @@ func (m MovieInfoRepositoryMongo) AddMovieInfo(ctx context.Context, movieInfo *e
 	return nil
 }
 
-func (m MovieInfoRepositoryMongo) GetAllMovieInfo(ctx context.Context) ([]entity.MovieInfo, error) {
-	cursor, err := m.database.Collection(m.tableName).Find(ctx, bson.D{})
+func GetAllMovieInfo(ctx context.Context, config config.Configuration) ([]entity.MovieInfo, error) {
+	cursor, err := config.Client.Database(MONGO_MOVIE_INFO_DB).Collection(tableName).Find(ctx, bson.D{})
 	if err != nil {
 		return []entity.MovieInfo{}, err
 	}
