@@ -41,7 +41,7 @@ func (m MovieInfoService) AddMovieInfo(ctx context.Context, movieInfoRequest req
 
 	err := repository.AddMovieInfo(ctx, m.config, &movieInfo)
 	if err != nil {
-		return response.MovieInfo{}, nil
+		return response.MovieInfo{}, err
 	}
 
 	var movieInfoResponse response.MovieInfo
