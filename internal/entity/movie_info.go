@@ -7,7 +7,7 @@ import (
 )
 
 type MovieInfo struct {
-	ID          primitive.ObjectID `bson:"_id"`
+	ID          primitive.ObjectID `bson:"_id,omitempty"`
 	Name        string             `bson:"movie_name"`
 	ReleaseDate time.Time          `bson:"release_date"`
 }
