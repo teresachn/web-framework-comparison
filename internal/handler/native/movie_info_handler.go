@@ -39,11 +39,11 @@ func (m MovieInfoHandlerNative) AddMovieInfoHandler(w http.ResponseWriter, r *ht
 	writeRespAsJson(w, http.StatusOK, resp)
 }
 
-func (m MovieInfoHandlerNative) GetAllMovieInfoHandler(w http.ResponseWriter, r http.Request) {
+func (m MovieInfoHandlerNative) GetAllMovieInfoHandler(w http.ResponseWriter, r *http.Request) {
 	movieInfosResponse, err := m.movieInfoService.GetAllMovieInfo(r.Context())
 	if err != nil {
 		resp := response.ReturnErrorResponse(err)
-		writeRespAsJson(w, http.StatusInternalServerError, resp)
+		writeRespAsJson(w, http.StatusOK, resp)
 		return
 	}
 
@@ -53,6 +53,7 @@ func (m MovieInfoHandlerNative) GetAllMovieInfoHandler(w http.ResponseWriter, r 
 
 func writeRespAsJson(w http.ResponseWriter, status int, data interface{}) {
 	jsonResp, _ := json.Marshal(data)
-	w.WriteHeader(http.StatusInternalServerError)
+	// w.Header().Add("Content-Type", "application/json")
+	w.WriteHeader(status)
 	w.Write(jsonResp)
 }
