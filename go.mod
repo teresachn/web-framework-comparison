@@ -5,6 +5,8 @@ go 1.18
 require go.mongodb.org/mongo-driver v1.10.2
 
 require (
+	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
+	github.com/go-martini/martini v0.0.0-20170121215854-22fa46961aab // indirect
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/go-cmp v0.5.5 // indirect
 	github.com/klauspost/compress v1.13.6 // indirect
