@@ -2,8 +2,9 @@ package internal
 
 import (
 	"tchen/web-framework-comparison/config"
-	// 	"tchen/web-framework-comparison/internal/repository"
-	// 	"tchen/web-framework-comparison/internal/service"
+	handlermartini "tchen/web-framework-comparison/internal/handler/martini"
+	"tchen/web-framework-comparison/internal/router"
+	"tchen/web-framework-comparison/internal/service"
 )
 
 func Launch() {
@@ -12,7 +13,12 @@ func Launch() {
 
 	defer configuration.CloseDB()
 
-	// movieInfoMongoRepo := repository.NewMovieInfoRepositoryMongo(mongoConfig)
-	// movieInfoService := service.NewMovieInfoService(movieInfoMongoRepo)
+	movieInfoService := service.NewMovieInfoService(configuration)
+	movieInfoHandler := handlermartini.NewMovieInfoMartini(movieInfoService)
+
+	var movieInfoRouter router.RouterMartini
+	movieInfoRouter.Init()
+	movieInfoRouter.RegisterMovieInfoHandler(movieInfoHandler)
+	movieInfoRouter.Start()
 
 }

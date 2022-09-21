@@ -1,6 +1,10 @@
 package router
 
-import "github.com/go-martini/martini"
+import (
+	handlermartini "tchen/web-framework-comparison/internal/handler/martini"
+
+	"github.com/go-martini/martini"
+)
 
 type RouterMartini struct {
 	router *martini.ClassicMartini
@@ -15,9 +19,9 @@ func (r *RouterMartini) Start() {
 	r.router.Run()
 }
 
-func (r *RouterMartini) RegisterMovieInfoHandler() {
+func (r *RouterMartini) RegisterMovieInfoHandler(handler handlermartini.MovieInfoHandlerMartini) {
 	r.router.Group("/v1/movie_infos", func(r martini.Router) {
-		r.Get("/", martini.Martini{})  // Placeholder for get all movie info handler
-		r.Post("/", martini.Martini{}) // Placeholder for register movie info handler
+		r.Get("/", handler.GetAllMovieInfoHandler) // Placeholder for get all movie info handler
+		r.Post("/", handler.AddMovieInfoHandler)   // Placeholder for register movie info handler
 	})
 }
